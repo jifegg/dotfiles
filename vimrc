@@ -180,7 +180,11 @@ if has("multi_byte")
     set fileencoding=uft-8
     set fileencodings=ucs-bom,utf-8,cp936,gb2312,gb18030,big5,euc-jp,euc-krl,latin1 " Set the sort for encoding
     " Solve the wrong coding of message
-    language messages en_US.uft-8
+    if g:isLinux
+        language POSIX
+    else
+        language messages en_US.uft-8
+    endif
     source $VIMRUNTIME/delmenu.vim
     set langmenu=en_US.UTF-8
     source $VIMRUNTIME/menu.vim
