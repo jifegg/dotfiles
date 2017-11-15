@@ -156,41 +156,45 @@ set viminfo^=%                  " remember info about open buffers on close
 " FileType {{{
 au BufRead,BufNewFile *.php set fileformat=unix
 autocmd FileType html setlocal shiftwidth=2 tabstop=2
-autocmd FileType js setlocal shiftwidth=2 tabstop=2
+autocmd FileType scss setlocal shiftwidth=2 tabstop=2
+autocmd FileType less setlocal shiftwidth=2 tabstop=2
+autocmd FileType javascript setlocal shiftwidth=2 tabstop=2
+autocmd FileType wxss setlocal shiftwidth=2 tabstop=2
+autocmd FileType wxml setlocal shiftwidth=2 tabstop=2
+autocmd FileType json setlocal shiftwidth=2 tabstop=2
 " }}}
-" Vundle {{{
-filetype off
-set rtp+=$VIM/vimfiles/bundle/Vundle.vim
-call vundle#begin('$VIM/vimfiles/bundle/')
+" Plug {{{
+" filetype off
+" set rtp+=$VIM/vimfiles/bundle/Vundle.vim
+" call vundle#begin('$VIM/vimfiles/bundle/')
+call plug#begin('$VIM/vimfiles/plugged')
 
-Plugin 'gmarik/Vundle.vim'
-Plugin 'godlygeek/tabular'
-Plugin 'plasticboy/vim-markdown'
-Plugin 'scrooloose/nerdtree'
-Plugin 'scrooloose/nerdcommenter'
-Plugin 'majutsushi/tagbar'
-Plugin 'altercation/vim-colors-solarized'
-Plugin 'morhetz/gruvbox'
-Plugin 'msanders/snipmate.vim'
-Plugin 'tpope/vim-surround'
-Plugin 'tpope/vim-repeat'
-Plugin 'tpope/vim-unimpaired'
-Plugin 'kien/ctrlp.vim'
-Plugin 'Yggdroot/indentLine'
-Plugin 'itchyny/lightline.vim'
-Plugin 'hdima/python-syntax'
-Plugin 'skammer/vim-css-color'
-Plugin '2072/vim-syntax-for-PHP'
+Plug 'godlygeek/tabular'
+Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+Plug 'scrooloose/nerdcommenter'
+Plug 'majutsushi/tagbar'
+Plug 'msanders/snipmate.vim'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-unimpaired'
+Plug 'Yggdroot/indentLine'
+Plug 'itchyny/lightline.vim'
+Plug 'hdima/python-syntax'
+Plug 'skammer/vim-css-color'
+Plug '2072/vim-syntax-for-PHP'
+Plug 'terryma/vim-multiple-cursors'
+Plug 'altercation/vim-colors-solarized'
+Plug 'junegunn/fzf'
+"Plugin 'plasticboy/vim-markdown'
+"Plugin 'morhetz/gruvbox'
 "Plugin 'nathanaelkane/vim-indent-guides'
 "Plugin 'fatih/vim-go'
 "Plugin 'moll/vim-node'
 "Plugin 'davidhalter/jedi-vim'
 
-call vundle#end()
-filetype plugin indent on
-set background=dark
-call togglebg#map("<F5>")
-let python_highlight_all = 1
+call plug#end()
+"filetype plugin indent on
+"call togglebg#map("<F5>")
 " }}}
 " Package Setting {{{
 " tagbar {{{
@@ -209,18 +213,17 @@ let g:NERDCustomDelimiters = {
 let NERD_html_alt_style=1
 " }}}
 " solarized {{{
+set background=dark
 let g:solarized_termcolors=256
 let g:solarized_italic=0
 colorscheme solarized
 " }}}
 " gruvbox {{{
-"let g:gruvbox_vert_split='bg1'
 "let g:gruvbox_invert_selection = 0
 "let g:gruvbox_contrast_dark='soft'
 "let g:gruvbox_contrast_light='soft'
 "let g:gruvbox_italicize_comments = 0
 "colorscheme gruvbox
-
 " }}}
 " lightline {{{
 let g:lightline = {
@@ -242,7 +245,7 @@ let g:ctrlp_custom_ignore = {
 let g:snippets_dir='$VIM/vimfiles/custom/snippets/'
 " }}}
 " vim-markdown {{{
-let g:vim_markdown_folding_disabled = 1
+let g:markdown_enable_spell_checking = 0
 " }}}
 " vim-go {{{
 "au FileType go nmap <leader>r <Plug>(go-run)
@@ -284,6 +287,9 @@ nmap <silent> <leader>s :tabnew $VIM/_vimrc<CR>
 nmap <silent> <leader>e :e! $VIM/_vimrc<CR>
 command -nargs=1 Vg :vimgrep <args> | copen
 imap jk <ESC>
+
+" toggle cursorcolumn
+map <silent><leader>cr :call ToggleCursorColumn()<CR>
 " }}}
 " Tips {{{
 " cs{motion}{str}: change the surround
@@ -328,6 +334,15 @@ function! <SID>BufcloseCloseIt()
    if buflisted(l:currentBufNum)
      execute("bdelete! ".l:currentBufNum)
    endif
+endfunction
+
+" toggle cursorcolumn
+function! ToggleCursorColumn()
+    if &cursorcolumn
+        set nocursorcolumn
+    else
+        set cursorcolumn
+    endif
 endfunction
 " }}}
 " vim:foldmethod=marker:foldlevel=0
